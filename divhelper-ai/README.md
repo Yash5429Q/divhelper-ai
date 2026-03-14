@@ -171,41 +171,40 @@ DivHelper AI uses **parametric insurance** to eliminate claims delays and comple
 The DivHelper AI Engine is the core intelligent system powering the platform:
 
 ```
-┌──────────────────────────────────────────────────┐
-│     DATA INGESTION LAYER                         │
-├──────────────────────────────────────────────────┤
-│ • Weather APIs (OpenWeather, IMD)                │
-│ • Swiggy Platform Status API                     │
-│ • GPS Location Services                          │
-│ • User Activity Logs                             │
-└──────────────────────────────────────────────────┘
-              ↓
-┌──────────────────────────────────────────────────┐
-│     AI PREDICTION MODELS                         │
-├──────────────────────────────────────────────────┤
-│ • Risk Prediction Model                          │
-│ • Fraud Detection Model                          │
-│ • Pattern Analysis Model                         │
-│ • Anomaly Detection Model                        │
-└──────────────────────────────────────────────────┘
-              ↓
-┌──────────────────────────────────────────────────┐
-│     TRIGGER VALIDATION ENGINE                    │
-├──────────────────────────────────────────────────┤
-│ • Parametric Trigger Evaluator                   │
-│ • Multi-source Data Validator                    │
-│ • Fraud Check Engine                             │
-│ • Payout Calculator                              │
-└──────────────────────────────────────────────────┘
-              ↓
-┌──────────────────────────────────────────────────┐
-│     SETTLEMENT & NOTIFICATION LAYER              │
-├──────────────────────────────────────────────────┤
-│ • Payout Processing                              │
-│ • Bank Settlement Integration                    │
-│ • User Notifications                             │
-│ • Audit Logging                                  │
-└──────────────────────────────────────────────────┘
+┌────────────────────────────────────┐
+│         External Data Sources      │
+│ Weather | Traffic | Alerts | Apps  │
+└─────────────────┬──────────────────┘
+                  │
+                  ▼
+┌────────────────────────────────────┐
+│        Data Ingestion Layer        │
+│   API Collectors / Fetch Jobs      │
+└─────────────────┬──────────────────┘
+                  │
+                  ▼
+┌────────────────────────────────────┐
+│       Event Stream Processing      │
+│       Kafka / PubSub Queue         │
+└─────────────────┬──────────────────┘
+                  │
+                  ▼
+┌────────────────────────────────────┐
+│    Disruption Detection Engine     │
+│   Trigger Evaluation & Validation  │
+└─────────────────┬──────────────────┘
+                  │
+                  ▼
+┌────────────────────────────────────┐
+│         AI Intelligence Layer      │
+│ Risk Model | Fraud Detection Model │
+└─────────────────┬──────────────────┘
+                  │
+                  ▼
+┌────────────────────────────────────┐
+│        Automated Payout Engine     │
+│   Compensation Calculation System  │
+└────────────────────────────────────┘
 ```
 
 ### AI Models Explanation
@@ -222,9 +221,65 @@ The DivHelper AI Engine is the core intelligent system powering the platform:
 - Blocks: Coordinated fraud attempts between multiple users
 - False positive rate: < 2%
 
+**3. Fraud Detection Model**
+1. GPS spoof detection
+2. Device integrity validation
+3. Zone-based payout eligibility
+4. Delivery activity verification
+5. Claim frequency anomaly detection
+
+Example: 
+IF claims_per_week > threshold
+AND disruption_frequency abnormal
+THEN flag account
+
 ---
 
-## 7. Parametric Triggers
+**6. Data Pipeline Architecture**
+The platform processes multiple external data sources to detect disruptions.
+Data Pipeline Flow
+Weather APIs
+Traffic APIs
+Government Alerts
+Platform Activity Data
+        │
+        ▼
+ ┌──────────────────────┐
+ │   Data Ingestion     │
+ │   API Collectors     │
+ └─────────┬────────────┘
+           │
+           ▼
+ ┌──────────────────────┐
+ │   Data Processing    │
+ │  Event Evaluation    │
+ └─────────┬────────────┘
+           │
+           ▼
+ ┌──────────────────────┐
+ │  Trigger Detection   │
+ │ Disruption Engine    │
+ └─────────┬────────────┘
+           │
+           ▼
+       AI Validation
+This pipeline ensures the system continuously evaluates real world signals before triggering payouts.
+
+
+**8. Example Fraud Scenario Handling**
+The system is designed to detect real world misuse scenarios.
+Scenario Example
+A rider leaves their phone in a rain affected area to falsely claim disruption payout.
+Detection Logic
+The platform performs additional validation checks:
+Check Rider GPS Movement
+Check Platform Activity
+Check Delivery Attempts
+If the rider shows no delivery activity or abnormal behavior during the disruption window, the claim is flagged as suspicious.
+This helps prevent misuse of disruption based insurance triggers.
+
+
+## 9. Parametric Triggers
 
 Payouts are automatically triggered when real-world conditions meet predefined thresholds. No human judgment, purely objective criteria.
 
@@ -265,7 +320,7 @@ if rainfall_6hr > 50mm AND worker_active_zone == true:
 
 ---
 
-## 8. Tech Stack
+## 10. Tech Stack
 
 ### Frontend
 - **Framework**: React.js
@@ -312,7 +367,7 @@ if rainfall_6hr > 50mm AND worker_active_zone == true:
 
 ---
 
-## 9. Future Roadmap
+## 11. Future Roadmap
 
 ### Phase 1: MVP (Weeks 1-4) - *Hackathon Focus*
 - ✅ Core platform setup
