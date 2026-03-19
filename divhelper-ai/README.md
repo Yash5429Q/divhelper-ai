@@ -29,7 +29,7 @@ An **event-driven insurance engine** that:
 
 ## 🧠 Architecture  
 
-![System Architecture](./Divhelper.jpeg)
+![System Architecture](./Divhelper.png)
 
 ### 🔄 System Flow
 
