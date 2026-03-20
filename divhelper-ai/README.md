@@ -32,7 +32,10 @@ When disruptions occur, workers bear the full financial loss with no safety net.
 
 ---
 
-## 2. Solution Overview
+## ⚠️ Problem  
+- Gig workers earn daily → no financial safety net  
+- Disruptions (weather, outages) reduce income drastically  
+- Traditional insurance fails → slow, manual, not designed for gig economy  
 
 ### 2.1 Solution Overview
 
@@ -727,11 +730,7 @@ Payouts are triggered automatically when real-world conditions meet predefined t
 
 ### 11.3 Platform-Based Triggers
 
-| Trigger | Threshold | Payout | Data Source |
-|---------|-----------|--------|------------|
-| **Platform Outage** | API uptime < 95% for 2+ hours | ₹250-400 | Swiggy API monitoring |
-| **Order Availability** | Orders drop > 70% vs baseline | ₹300-500 | Order tracking |
-| **Delivery Slots** | Available slots < 10 for 3+ hours | ₹200-300 | Platform data |
+---
 
 ---
 
@@ -747,12 +746,9 @@ Payouts are triggered automatically when real-world conditions meet predefined t
 
 ### 11.4 Location-Based Triggers
 
-| Trigger | Threshold | Payout | Data Source |
-|---------|-----------|--------|------------|
-| **Curfew Alert** | Curfew declared in delivery zone | ₹500-1000 | Local government APIs |
-| **Road Closure** | Major roads blocked > 4 hours | ₹300-400 | Traffic data + news APIs |
-| **Protest/Riot** | Conflict zone detected | ₹400-800 | News APIs + GPS clustering |
-| **Natural Disaster** | Earthquake/flood alerts triggered | ₹1000+ | Disaster management APIs |
+#### ✅ Risk Prediction Engine
+- Predicts disruption before it happens  
+- Outputs: LOW / MEDIUM / HIGH risk  
 
 ---
 
@@ -954,15 +950,7 @@ The stack is intentionally simple to enable fast iteration and clear understandi
 
 ---
 
-| Metric | Target (Hackathon) | Target (6 months) |
-|--------|-------------------|------------------|
-| Active Users | 100 | 50,000 |
-| Weekly Claims Processed | 150 | 50,000 |
-| Average Payout | ₹350 | ₹400 |
-| Payout Speed | < 4 hours | < 2 hours |
-| Fraud Detection Rate | 95% | 98%+% |
-| User Retention (30-day) | 60% | 85% |
-| NPS Score | +40 | +70 |
+Core logic:
 
 **Note**: Metrics focus on system reliability and user satisfaction. We avoid unrealistic precision claims and adjust targets based on actual market feedback during MVP launch.
 
@@ -988,8 +976,10 @@ cd divhelper-ai
 pip install -r requirements.txt
 npm install
 
-# Run backend
-python backend/main_api.py
+## 💰 Payout Engine
+- Calculates payout based on:
+  - Plan type  
+  - Event severity  
 
 # Run frontend
 # Frontend setup (in another terminal)
