@@ -66,7 +66,9 @@ Unlike traditional insurance, DivHelper AI uses **parametric insurance** to elim
 
 ## 3. Target Persona
 
-### Meet Rajesh, a Delivery Rider
+![Persona 1](./assets/persona1.png)
+![Persona 2](./assets/persona2.png)
+![Persona 3](./assets/persona3.png)
 
 ---
 
@@ -381,7 +383,7 @@ DivHelper Insurance provides automated, parametric insurance coverage for Swiggy
 
 ## 🚀 How It Works
 
-![How It Works](./howItWorks.png)
+![How It Works](./assets/howItWorks.png)
 
 ## 🛡️ Key Features
 
@@ -430,7 +432,7 @@ DivHelper Insurance provides automated, parametric insurance coverage for Swiggy
 
 #### Architecture Diagram
 
-![System Architecture](./Divhelper.png)
+![System Architecture](./assets/Divhelper.png)
 
 External APIs → Ingestion → Kafka → Detection → Eligibility → AI Layer → Trigger → Payout → Storage
 
