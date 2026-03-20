@@ -21,17 +21,30 @@ This document describes the overall system architecture for DivHelper AI.
 
 ## Architecture Diagram
 ```
-┌─────────────┐
-│  Frontend   │
-└──────┬──────┘
-       │
-┌──────▼──────┐
-│   Backend   │
-└──────┬──────┘
-       │
-┌──────▼──────┐
-│  AI Models  │
-└─────────────┘
+            ┌───────────────┐
+            │   Frontend    │
+            │  (React App)  │
+            └───────┬───────┘
+                    │ API
+            ┌───────▼────────┐
+            │  Backend API   │
+            │   (FastAPI)    │
+            └───────┬────────┘
+                    │
+        ┌───────────▼───────────┐
+        │  Event Processing     │
+        │  & Trigger Engine     │
+        └───────────┬───────────┘
+                    │
+     ┌──────────────▼─────────────┐
+     │      AI Services Layer     │
+     │ Risk Model | Fraud Model   │
+     └──────────────┬─────────────┘
+                    │
+      ┌─────────────▼─────────────┐
+      │ Data Sources & APIs       │
+      │ Weather | Traffic | News  │
+      └───────────────────────────┘
 ```
 
 ## Data Flow
