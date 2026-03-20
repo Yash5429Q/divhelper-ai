@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DivHelper AI — User Persona</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f5f3;
+    color: #1a1a18;
+    min-height: 100vh;
+  }
+
+  .hero {
+    background: #1a1a18;
+    color: #fff;
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: #E1F5EE;
+    color: #085041;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .hero h1 { font-size: 28px; font-weight: 500; margin-bottom: 8px; }
+  .hero p  { font-size: 15px; color: #888780; max-width: 500px; margin: 0 auto; }
+
+  .content { max-width: 960px; margin: 0 auto; padding: 2rem; }
+
+  .profile-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    align-items: center;
+    background: #fff;
+    border: 0.5px solid rgba(26,26,24,0.12);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 16px;
+  }
+  .avatar {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: #E1F5EE;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 30px; flex-shrink: 0;
+  }
+  .profile-info h2   { font-size: 20px; font-weight: 500; margin-bottom: 3px; }
+  .profile-info .role { font-size: 14px; color: #5f5e5a; margin-bottom: 10px; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
+  .tag-teal  { background: #E1F5EE; color: #085041; }
+  .tag-blue  { background: #E6F1FB; color: #0C447C; }
+  .tag-coral { background: #FAECE7; color: #712B13; }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .stat-card {
+    background: #fff;
+    border: 0.5px solid rgba(26,26,24,0.12);
+    border-radius: 12px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .stat-label { font-size: 11px; color: #888780; margin-bottom: 5px; line-height: 1.4; }
+  .stat-val   { font-size: 22px; font-weight: 500; color: #1a1a18; }
+  .stat-sub   { font-size: 11px; color: #888780; margin-top: 2px; }
+
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+
+  .card {
+    background: #fff;
+    border: 0.5px solid rgba(26,26,24,0.12);
+    border-radius: 12px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 12px;
+  }
+  .card-grid .card { margin-bottom: 0; }
+
+  .card-label {
+    font-size: 11px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+  .cl-teal   { color: #0F6E56; }
+  .cl-blue   { color: #185FA5; }
+  .cl-coral  { color: #993C1D; }
+  .cl-amber  { color: #854F0B; }
+  .cl-green  { color: #3B6D11; }
+  .cl-gray   { color: #5f5e5a; }
+
+  .card p { font-size: 14px; color: #1a1a18; line-height: 1.65; }
+
+  .bullet-list { display: flex; flex-direction: column; gap: 7px; }
+  .bullet { display: flex; gap: 8px; font-size: 13px; color: #1a1a18; line-height: 1.5; align-items: flex-start; }
+  .dot { flex-shrink: 0; margin-top: 3px; font-size: 10px; }
+  .dt { color: #378ADD; }
+  .dc { color: #D85A30; }
+
+  .quote-block {
+    background: #1a1a18;
+    color: #fff;
+    border-radius: 12px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 12px;
+  }
+  .quote-text { font-size: 15px; line-height: 1.65; font-style: italic; color: #d3d1c7; }
+  .quote-attr { font-size: 12px; color: #888780; margin-top: 8px; }
+
+  .attrs { display: flex; flex-direction: column; gap: 7px; }
+  .attr-row { display: flex; justify-content: space-between; font-size: 13px; border-bottom: 0.5px solid rgba(26,26,24,0.07); padding-bottom: 7px; }
+  .attr-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .attr-label { color: #888780; }
+  .attr-val   { font-weight: 500; color: #1a1a18; text-align: right; }
+
+  .scenario {
+    background: #f1efe8;
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .scenario-title { font-size: 12px; font-weight: 500; color: #5f5e5a; margin-bottom: 10px; }
+  .scenario-steps { display: flex; flex-direction: column; gap: 8px; }
+  .step { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; }
+  .step-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: #1a1a18; color: #fff;
+    font-size: 10px; font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+
+  .plan-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; }
+  .plan-card { border-radius: 12px; padding: 1.2rem; border: 0.5px solid rgba(26,26,24,0.12); }
+  .plan-basic    { background: #EAF3DE; }
+  .plan-standard { background: #E6F1FB; }
+  .plan-premium  { background: #EEEDFE; }
+  .plan-name  { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+  .plan-price { font-size: 22px; font-weight: 500; margin-bottom: 8px; }
+  .plan-features { display: flex; flex-direction: column; gap: 5px; margin-top: 10px; }
+  .plan-feat { font-size: 12px; display: flex; gap: 6px; }
+  .pn-basic    { color: #27500A; }
+  .pn-standard { color: #0C447C; }
+  .pn-premium  { color: #3C3489; }
+
+  .sol-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+  .sol-tile { border-radius: 10px; padding: 12px 14px; }
+  .st-green  { background: #EAF3DE; }
+  .st-blue   { background: #E6F1FB; }
+  .st-purple { background: #EEEDFE; }
+  .st-amber  { background: #FAEEDA; }
+  .sol-title { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+  .sol-desc  { font-size: 12px; line-height: 1.5; }
+  .stt-green  { color: #27500A; } .std-green  { color: #3B6D11; }
+  .stt-blue   { color: #0C447C; } .std-blue   { color: #185FA5; }
+  .stt-purple { color: #3C3489; } .std-purple { color: #534AB7; }
+  .stt-amber  { color: #633806; } .std-amber  { color: #854F0B; }
+
+  @media (max-width: 640px) {
+    .profile-header { grid-template-columns: 1fr; text-align: center; }
+    .tags { justify-content: center; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .card-grid, .plan-grid, .sol-grid { grid-template-columns: 1fr; }
+    .content { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">DivHelper AI — User Persona</div>
+  <h1>Meet Rajesh</h1>
+  <p>The gig delivery worker DivHelper AI was built for — earning daily, protected automatically.</p>
+</div>
+
+<div class="content">
+
+  <div class="profile-header">
+    <div class="avatar">🛵</div>
+    <div class="profile-info">
+      <h2>Rajesh Kumar</h2>
+      <div class="role">Gig delivery rider — Swiggy / Zomato, Hyderabad</div>
+      <div class="tags">
+        <span class="tag tag-teal">Primary user</span>
+        <span class="tag tag-blue">B2C</span>
+        <span class="tag tag-coral">High disruption risk</span>
+        <span class="tag tag-teal">UPI native</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-label">Daily earnings</div><div class="stat-val">₹800</div><div class="stat-sub">avg. good day</div></div>
+    <div class="stat-card"><div class="stat-label">Lost per rain day</div><div class="stat-val">₹700+</div><div class="stat-sub">no compensation</div></div>
+    <div class="stat-card"><div class="stat-label">Disruptions / month</div><div class="stat-val">8–12</div><div class="stat-sub">monsoon season</div></div>
+    <div class="stat-card"><div class="stat-label">Annual loss</div><div class="stat-val">₹96K</div><div class="stat-sub">worst case</div></div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-label cl-gray">Background</div>
+      <p>Rajesh migrated from a small town and relies entirely on daily delivery earnings. He works 10–12 hours a day with no PF, ESI, or paid leave. His family of three depends on his income — one bad rain week can mean missing rent or skipping meals.</p>
+    </div>
+    <div class="card">
+      <div class="card-label cl-gray">Profile</div>
+      <div class="attrs">
+        <div class="attr-row"><span class="attr-label">Age</span><span class="attr-val">28</span></div>
+        <div class="attr-row"><span class="attr-label">City</span><span class="attr-val">Hyderabad</span></div>
+        <div class="attr-row"><span class="attr-label">Platform</span><span class="attr-val">Swiggy + Zomato</span></div>
+        <div class="attr-row"><span class="attr-label">Device</span><span class="attr-val">Budget Android</span></div>
+        <div class="attr-row"><span class="attr-label">Insurance awareness</span><span class="attr-val">Very low</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    <div class="quote-text">"When it rains heavily, I sit at home watching my earnings go to zero. If something just paid me automatically — I wouldn't even need to fully understand it."</div>
+    <div class="quote-attr">— Typical sentiment from gig delivery riders in Hyderabad</div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-label cl-blue">Goals</div>
+      <div class="bullet-list">
+        <div class="bullet"><span class="dot dt">▸</span>Earn consistently despite rain, heat, or outages</div>
+        <div class="bullet"><span class="dot dt">▸</span>Get paid automatically when disrupted — no forms</div>
+        <div class="bullet"><span class="dot dt">▸</span>Understand what he's paying ₹50–100/week for</div>
+        <div class="bullet"><span class="dot dt">▸</span>Receive money directly to UPI within hours</div>
+        <div class="bullet"><span class="dot dt">▸</span>Build a small financial buffer for his family</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label cl-coral">Pain points</div>
+      <div class="bullet-list">
+        <div class="bullet"><span class="dot dc">▸</span>Heavy rainfall drops orders to 20–30% of normal</div>
+        <div class="bullet"><span class="dot dc">▸</span>Platform outages = zero income, zero compensation</div>
+        <div class="bullet"><span class="dot dc">▸</span>Traditional insurance too complex, requires paperwork</div>
+        <div class="bullet"><span class="dot dc">▸</span>No savings buffer — one lost week = crisis</div>
+        <div class="bullet"><span class="dot dc">▸</span>Doesn't trust apps that are complex or hard to navigate</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label cl-amber">Rajesh's day — a real scenario</div>
+    <div class="scenario">
+      <div class="scenario-title">Tuesday, 9 AM — Heavy rain (75mm in 4 hours), Hyderabad</div>
+      <div class="scenario-steps">
+        <div class="step"><div class="step-num">1</div><div>Orders drop 65% from baseline. Rajesh earned only ₹350 against a typical ₹1,000 day.</div></div>
+        <div class="step"><div class="step-num">2</div><div>IMD registers 75mm rainfall — exceeds the 50mm threshold. <strong>Trigger activated automatically.</strong></div></div>
+        <div class="step"><div class="step-num">3</div><div>DivHelper confirms Rajesh was active in the affected zone during the disruption window.</div></div>
+        <div class="step"><div class="step-num">4</div><div>Fraud check passes in &lt;30 seconds. ₹450 payout (Standard Plan) calculated based on severity.</div></div>
+        <div class="step"><div class="step-num">5</div><div>Rajesh receives ₹450 to UPI within 2–4 hours. SMS confirmation sent instantly.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label cl-teal">Which plan suits Rajesh?</div>
+    <div class="plan-grid">
+      <div class="plan-card plan-basic">
+        <div class="plan-name pn-basic">Basic</div>
+        <div class="plan-price pn-basic">₹50<span style="font-size:13px;font-weight:400;">/week</span></div>
+        <div class="plan-features">
+          <div class="plan-feat pn-basic"><span>✓</span> Heavy rain (&gt;50mm)</div>
+          <div class="plan-feat pn-basic"><span>✓</span> Extreme heat (&gt;45°C)</div>
+          <div class="plan-feat pn-basic"><span>✓</span> Cold snaps (&lt;5°C)</div>
+          <div class="plan-feat pn-basic"><span style="opacity:0.4">✗</span> Platform outages</div>
+          <div class="plan-feat pn-basic" style="margin-top:6px;font-weight:500;">Payout: ₹250–500</div>
+        </div>
+      </div>
+      <div class="plan-card plan-standard" style="border: 2px solid #378ADD;">
+        <div style="font-size:10px;font-weight:500;color:#0C447C;margin-bottom:4px;">⭐ RECOMMENDED</div>
+        <div class="plan-name pn-standard">Standard</div>
+        <div class="plan-price pn-standard">₹75<span style="font-size:13px;font-weight:400;">/week</span></div>
+        <div class="plan-features">
+          <div class="plan-feat pn-standard"><span>✓</span> All Basic coverage</div>
+          <div class="plan-feat pn-standard"><span>✓</span> Severe flooding</div>
+          <div class="plan-feat pn-standard"><span>✓</span> High winds (&gt;50km/h)</div>
+          <div class="plan-feat pn-standard"><span>✓</span> Air pollution (AQI)</div>
+          <div class="plan-feat pn-standard" style="margin-top:6px;font-weight:500;">Payout: ₹400–750</div>
+        </div>
+      </div>
+      <div class="plan-card plan-premium">
+        <div class="plan-name pn-premium">Premium</div>
+        <div class="plan-price pn-premium">₹100<span style="font-size:13px;font-weight:400;">/week</span></div>
+        <div class="plan-features">
+          <div class="plan-feat pn-premium"><span>✓</span> All Standard coverage</div>
+          <div class="plan-feat pn-premium"><span>✓</span> Curfews / strikes</div>
+          <div class="plan-feat pn-premium"><span>✓</span> Platform outages</div>
+          <div class="plan-feat pn-premium"><span>✓</span> Road closures (&gt;4hr)</div>
+          <div class="plan-feat pn-premium" style="margin-top:6px;font-weight:500;">Payout: ₹500–1000</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label cl-green">How DivHelper solves for Rajesh</div>
+    <div class="sol-grid">
+      <div class="sol-tile st-green"><div class="sol-title stt-green">Auto-payout</div><div class="sol-desc std-green">Money arrives before he even stops riding. No claims, no paperwork, straight to UPI.</div></div>
+
+      <div class="sol-tile st-purple"><div class="sol-title stt-purple">Transparent triggers</div><div class="sol-desc std-purple">He sees exactly: "Heavy Rain 75mm triggered ₹450 payout at 2:15 PM."</div></div>
+      <div class="sol-tile st-amber"><div class="sol-title stt-amber">Advance alerts</div><div class="sol-desc std-amber">Risk score alerts him at 6 AM: "Heavy rain in 4 hours. Consider upgrading plan."</div></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
